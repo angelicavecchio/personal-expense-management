@@ -20,6 +20,3 @@ This is a command-line application developed in Java for managing personal expen
 - Scanner for user input
 - exception handling (e.g., input validation)
 
-## Project Structure
-/PersonalExpenseManager ├── App.java // Entry point and user interface ├── Expense.java // Expense data model ├── Management.java // Core logic for managing expenses ├── example.txt // (Optional) Example export file └── README.md
-
