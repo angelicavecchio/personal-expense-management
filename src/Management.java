@@ -13,9 +13,17 @@ public class Management {
     }
 
     public void printExpences(){
+        int i = 0;
         for(Expense expence : expenses){
-            System.out.println(expence.toString());
+            System.out.print((i+1) + "." + " ");
+            System.out.print(expence.toString());
+            System.out.println();
+            i++;
         }
+        System.out.println("------------------------");
+        System.out.printf("Total expenses: %d", i);
+        System.out.println();
+        System.out.println();
     }
 
 
@@ -44,7 +52,30 @@ public class Management {
         }catch(IOException e){
             System.out.println("Could not write this file");
         }
+
+
+
         
+    }
+
+
+
+    public void filterByCategory(String category){
+        double total = 0;
+        for(Expense expence : expenses){
+            if(expence.getCategory().equals(category)){
+                System.out.println(expence.toString());
+                total = total + expence.getAmount();
+            }
+
+
+
+        }
+        System.out.println("------------------------");
+        System.out.printf("Total in %s category: %.2f$\n\n", category, total);
+
+        
+
     }
 
 

@@ -32,9 +32,9 @@ public class Expense {
 
 
     public String toString(){
-        return "Date: "+ this.getDate() + " "+ "Description "+ this.getDescription()+ " "+ "Category: "+ this.getCategory()+ " "+ "Amount: " + this.getAmount()+ "$";
+        return "["+ this.getDate() + "] "+ this.getCategory()+ " - " +  this.getDescription()+ " "+  ": " + this.getAmount()+ "$";
+    
     }
-
 
 
 }
