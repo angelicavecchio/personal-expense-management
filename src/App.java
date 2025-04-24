@@ -1,7 +1,6 @@
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class App {
@@ -12,8 +11,8 @@ public class App {
         System.out.println("------------------------------------");
 
 
-         Scanner scanner = new Scanner(System.in);
-         int choice = 0;
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
         Management management = new Management();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -21,27 +20,61 @@ public class App {
 
             printMenu();
            
-            try{
-            System.out.printf("Enter your choice: ");
-            choice = scanner.nextInt();
-            scanner.nextLine();
-            }catch(InputMismatchException ex){
-                System.out.println("Enter a valid input");
+            while (true) {
+                try {
+                    System.out.print("Enter your choice (1-6): ");
+                    String input = scanner.nextLine();
+                    choice = Integer.parseInt(input);
+            
+                    if (choice < 1 || choice > 6) {
+                        System.out.println("Choice must be between 1 and 6.");
+                        continue;
+                    }
+            
+                    break; // input valido → esco dal ciclo
+            
+                } catch (NumberFormatException ex) {
+                    System.out.println("Invalid input. Please enter a number from 1 to 6.");
+                }
             }
-
+            
             switch (choice) {
                 case 1:
 
                 System.out.print("Enter description: ");
                 String description = scanner.nextLine();
-                System.out.print("Enter amount ($): ");
-                double amount = scanner.nextDouble();
-                scanner.nextLine();
+                double amount = 0;
+                while(true){
+                    try{
+                 System.out.print("Enter amount ($): ");
+                amount = scanner.nextDouble();
+                 scanner.nextLine();
+                 if(amount<=0){
+                    System.out.println("The amount must be a positive number.");
+                    continue;
+                 }
+                 break;
+                    }catch(NumberFormatException  e){
+                        System.out.println("Invalid amount. Please enter a number.");
+                    }
+                }
+               
                 System.out.print("Enter Category (e.g. Food, Transportation, Entertainment, Other): ");
                 String category = scanner.nextLine();
+
+                LocalDate date = null;
+                while(true){
+                    try{
                 System.out.print("Enter date (dd/MM/yyyy): ");
                 String input = scanner.nextLine();
-                LocalDate date = LocalDate.parse(input, formatter);
+                date = LocalDate.parse(input, formatter);
+                break;
+                    }catch(Exception ex){
+                        System.out.println("Invalid date format. Please use dd/MM/yyyy.");
+
+                    }
+                }
+                
                 Expense expense = new Expense(description, amount, category, date);
                 management.addExpense(expense);
                 System.out.println("Expense added successfully!");
@@ -65,16 +98,25 @@ public class App {
                     System.out.println();
                     System.out.print("Enter the category to filter: ");
                     String filterCategory = scanner.nextLine();
-                    System.out.printf("\n----- EXPENSES: %s -----\n",filterCategory);
+                     System.out.printf("\n----- EXPENSES: %s -----\n",filterCategory);
                     management.filterByCategory(filterCategory);
                     
 
                     break;
 
                     case 5:
+                    File file = null;
+                    while(true){
+                        try{
                     System.out.print("Enter file name:  ");
                     String nameFile = scanner.nextLine();
-                    File file = new File(nameFile + ".txt");
+                    file = new File(nameFile + ".csv");
+                    break;
+                        }catch(Exception e){
+                            System.out.println("Could not create this file");
+                        }
+                    }
+                   
                     management.exportFileExpence(file);
                     System.out.println("Export completed!");
                    
@@ -93,7 +135,6 @@ public class App {
                     
             
                 default:
-                System.out.println("Cannot choose this number");
             break;
                     
             }
