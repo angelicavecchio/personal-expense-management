@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -22,11 +23,11 @@ public class App {
            
             while (true) {
                 try {
-                    System.out.print("Enter your choice (1-6): ");
+                    System.out.print("Enter your choice (1-7): ");
                     String input = scanner.nextLine();
                     choice = Integer.parseInt(input);
             
-                    if (choice < 1 || choice > 6) {
+                    if (choice < 1 || choice > 7) {
                         System.out.println("Choice must be between 1 and 6.");
                         continue;
                     }
@@ -34,7 +35,7 @@ public class App {
                     break; // input valido → esco dal ciclo
             
                 } catch (NumberFormatException ex) {
-                    System.out.println("Invalid input. Please enter a number from 1 to 6.");
+                    System.out.println("Invalid input. Please enter a number from 1 to 7.");
                 }
             }
             
@@ -83,6 +84,7 @@ public class App {
                     break;
 
                     case 2:
+                    System.out.println();
                     System.out.println("----- EXPENSE REGISTER -----");
                     management.printExpences();
                     
@@ -124,7 +126,26 @@ public class App {
 
                     break;
 
+
+
                     case 6:
+
+                    File fileUpdate;
+
+                    System.out.print("Enter the file name you want to update: ");
+                    String nameFileToUpdate = scanner.nextLine();
+                    fileUpdate = new File(nameFileToUpdate + ".csv");
+                    if (!fileUpdate.exists()) {
+                        System.out.println("File not found. It will be created.");
+                        fileUpdate = new File(nameFileToUpdate+ ".csv");
+                    }
+                
+                    management.updateFile(fileUpdate);
+                    System.out.println(" File updated successfully!");
+                    break;
+                    
+
+                    case 7:
                     System.out.println();
                     System.out.println("------------------------------------------------");
                     System.out.println("Thank you for using my personal expense manager! \n Bye!");
@@ -150,7 +171,7 @@ public class App {
 
 
 
-        }while(choice<6);
+        }while(choice<=7);
 
         
 
@@ -171,7 +192,8 @@ public class App {
         System.out.println("3. Total spent");
         System.out.println("4. Filter by category");
         System.out.println("5. Export expenses to file");
-        System.out.println("6. Exit");
+        System.out.println("6. Update file");
+        System.out.println("7. Exit");
         System.out.println();
     }
 }
