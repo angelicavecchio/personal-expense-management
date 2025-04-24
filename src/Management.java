@@ -14,11 +14,15 @@ public class Management {
 
     public void printExpences(){
         int i = 0;
-        for(Expense expence : expenses){
+        if(expenses.isEmpty()){
+            System.out.println("There are no expences yet!");
+        }
+        for(Expense expence : expenses){ 
             System.out.print((i+1) + "." + " ");
             System.out.print(expence.toString());
             System.out.println();
             i++;
+           
         }
         System.out.println("------------------------");
         System.out.printf("Total expenses: %d", i);
@@ -41,11 +45,13 @@ public class Management {
     public void exportFileExpence(File file){
 
         try(FileWriter fileWriter = new FileWriter(file,true)){
-
-            for(Expense expence : expenses){
-                fileWriter.write(expence.toString());
-                fileWriter.write("\n");
-
+            fileWriter.write("Date  Category - Description : Amount\n");
+            for (Expense expense : expenses) {
+                fileWriter.write(String.format("[%s] %s - %s : %.2f$\n",
+                    expense.getDate(),
+                    expense.getCategory(),
+                    expense.getDescription(),
+                    expense.getAmount()));
             }
             
 
@@ -56,6 +62,26 @@ public class Management {
 
 
         
+    }
+
+
+    public void updateFile(File file){
+        try(FileWriter fileWriter = new FileWriter(file,true)){
+            for (Expense expense : expenses) {
+                fileWriter.write(String.format("[%s] %s - %s : %.2f$\n",
+                    expense.getDate(),
+                    expense.getCategory(),
+                    expense.getDescription(),
+                    expense.getAmount()));
+            }
+            
+
+        }catch(IOException e){
+            System.out.println("Could not update this file");
+        }
+
+
+
     }
 
 
