@@ -1,13 +1,16 @@
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class App {
+    public static final String GREEN = "\u001B[32m";
+    public static final String RESET = "\u001B[0m";
     public static void main(String[] args) throws Exception {
         
         System.out.println("------------------------------------");
-        System.err.println("Personal Expences Management");
+        System.err.println(GREEN + "Personal Expences Management" + RESET);
         System.out.println("------------------------------------");
 
 
@@ -22,7 +25,7 @@ public class App {
            
             while (true) {
                 try {
-                    System.out.print("Enter your choice (1-7): ");
+                    System.out.print(GREEN + "Enter your choice (1-7): "+ RESET);
                     String input = scanner.nextLine();
                     choice = Integer.parseInt(input);
             
@@ -56,7 +59,10 @@ public class App {
                  break;
                     }catch(NumberFormatException  e){
                         System.out.println("Invalid amount. Please enter a number.");
+                    }catch(InputMismatchException ex){
+                        System.out.println("Invalid amount. Please enter a number.");
                     }
+
                 }
                
                 System.out.print("Enter Category (e.g. Food, Transportation, Entertainment, Other): ");
@@ -84,7 +90,7 @@ public class App {
 
                     case 2:
                     System.out.println();
-                    System.out.println("----- EXPENSE REGISTER -----");
+                    System.out.println(GREEN + "----- EXPENSE REGISTER -----"+ RESET);
                     management.printExpences();
                     
                     break;
@@ -147,7 +153,7 @@ public class App {
                     case 7:
                     System.out.println();
                     System.out.println("------------------------------------------------");
-                    System.out.println("Thank you for using my personal expense manager! \n Bye!");
+                    System.out.println(GREEN + "Thank you for using my personal expense manager! \n Bye!"+ RESET);
                     System.out.println("------------------------------------------------");
                     System.exit(0);
 
